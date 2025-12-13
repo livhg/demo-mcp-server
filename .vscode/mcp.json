@@ -1,0 +1,12 @@
+{
+	"servers": {
+		"convertor": {
+			"type": "stdio",
+			// Activate venv: mcp_env\Scripts\activate.bat
+			// Then get path: python -c "import sys, json; print(json.dumps(sys.executable))"
+			"command": "",
+			"args": ["server.py"]
+		}
+	},
+	"inputs": []
+}
