@@ -33,6 +33,20 @@ def convert_currency(amount: float, from_currency: str, to_currency: str) -> str
     return f"{amount} {from_currency} = {result:.2f} {to_currency}"
 
 # Resource
+@mcp.resource("currency://rates/info")
+def currency_rates() -> str:
+    """提供所有貨幣的匯率資訊（相對於 USD）。"""
+    rates = {
+        "USD": 1.0,
+        "TWD": 31.5,
+        "JPY": 149.5,
+        "EUR": 0.92
+    }
+    info = "貨幣匯率資訊（相對於 USD）：\n"
+    for currency, rate in rates.items():
+        info += f"- {currency}: {rate}\n"
+    return info
+
 @mcp.resource("currency://rates/{currency}")
 def currency_rates(currency: str) -> str:
     """提供特定貨幣的匯率資訊（相對於 USD）。"""
