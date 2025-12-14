@@ -1,10 +1,12 @@
 {
 	"servers": {
-		"convertor": {
+		"Currency Converter": {
 			"type": "stdio",
-			// Activate venv: mcp_env\Scripts\activate.bat
-			// Then get path: python -c "import sys, json; print(json.dumps(sys.executable))"
-			"command": "",
+			// If the default "python" command doesn't work, get the venv Python
+			// First, ensure the venv is activated (mcp_env), then run:
+			//   python -c "import sys, json; print(json.dumps(sys.executable))"
+			// Then set "command" to that path (e.g., "C:\\path\\to\\python.exe")
+			"command": "python",
 			"args": ["server.py"]
 		}
 	},
