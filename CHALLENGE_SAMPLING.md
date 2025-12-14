@@ -49,9 +49,7 @@
 
 ```python
 # sampling_server.py
-from fastmcp import FastMCP
-from mcp.server.fastmcp.prompts import base
-from mcp.types import TextContent
+from fastmcp import FastMCP, Context
 
 # 1. 初始化 MCP Server（啟用 sampling）
 mcp = FastMCP("Sampling Demo Server", host="localhost", port=8080)
@@ -80,8 +78,8 @@ news_database = {
 
 
 # 2. 定義工具 - 使用 Sampling 來總結新聞
-@mcp.tool()
-async def summarize_news(category: str, language: str = "繁體中文") -> str:
+@mcp.tool
+async def summarize_news(category: str, ctx: Context, language: str = "繁體中文") -> str:
     """
     取得指定類別的新聞並使用 AI 生成摘要。
     
@@ -96,9 +94,6 @@ async def summarize_news(category: str, language: str = "繁體中文") -> str:
         return f"找不到類別：{category}。可用類別：tech, sports, business"
     
     news_content = news_database[category]
-    
-    # 🔥 這裡使用 Sampling - 請求 AI 幫忙總結！
-    ctx = mcp.get_context()
     
     result = await ctx.sample(
         f"""請將以下新聞內容總結為 2-3 句話的精簡摘要。
@@ -115,8 +110,8 @@ async def summarize_news(category: str, language: str = "繁體中文") -> str:
 
 
 # 3. 定義工具 - 使用 Sampling 來翻譯
-@mcp.tool()
-async def smart_translate(text: str, target_language: str) -> str:
+@mcp.tool
+async def smart_translate(text: str, ctx: Context, target_language: str) -> str:
     """
     使用 AI 進行智慧翻譯（保留語氣和風格）。
     
@@ -127,8 +122,6 @@ async def smart_translate(text: str, target_language: str) -> str:
     Returns:
         翻譯後的文字
     """
-    ctx = mcp.get_context()
-    
     # 使用 Sampling 請求 AI 翻譯
     result = await ctx.sample(
         f"""請將以下文字翻譯成 {target_language}。
@@ -145,8 +138,8 @@ async def smart_translate(text: str, target_language: str) -> str:
 
 
 # 4. 定義工具 - 使用 Sampling 生成回應建議
-@mcp.tool()
-async def generate_reply_suggestions(message: str, tone: str = "professional") -> str:
+@mcp.tool
+async def generate_reply_suggestions(message: str, ctx: Context, tone: str = "professional") -> str:
     """
     根據收到的訊息，使用 AI 生成多個回覆建議。
     
@@ -157,8 +150,6 @@ async def generate_reply_suggestions(message: str, tone: str = "professional") -
     Returns:
         三個不同的回覆建議
     """
-    ctx = mcp.get_context()
-    
     result = await ctx.sample(
         f"""你收到了以下訊息，請生成 3 個不同的回覆建議。
 使用 {tone} 的語氣。
@@ -174,7 +165,6 @@ async def generate_reply_suggestions(message: str, tone: str = "professional") -
     )
     
     return f"💬 回覆建議（{tone} 語氣）：\n\n{result.text}"
-
 
 # 啟動 Server
 if __name__ == "__main__":
