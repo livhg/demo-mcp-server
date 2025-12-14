@@ -35,7 +35,7 @@ uv pip install txtai
 
 ```python
 # server.py
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from txtai import Embeddings
 
 # 1. 初始化 MCP Server
