@@ -51,7 +51,7 @@
 # sampling_server.py
 from fastmcp import FastMCP, Context
 
-# 1. 初始化 MCP Server（啟用 sampling）
+# 初始化 MCP Server（啟用 sampling）
 mcp = FastMCP("Sampling Demo Server", host="localhost", port=8080)
 
 # 模擬的新聞資料庫
@@ -77,9 +77,9 @@ news_database = {
 }
 
 
-# 2. 定義工具 - 使用 Sampling 來總結新聞
+# 定義工具 - 使用 Sampling 來總結新聞
 @mcp.tool
-async def summarize_news(category: str, ctx: Context, language: str = "繁體中文") -> str:
+async def summarize_news(ctx: Context, category: str, language: str = "繁體中文") -> str:
     """
     取得指定類別的新聞並使用 AI 生成摘要。
     
@@ -109,9 +109,9 @@ async def summarize_news(category: str, ctx: Context, language: str = "繁體中
     return f"📰 {category.upper()} 新聞摘要：\n\n{result.text}"
 
 
-# 3. 定義工具 - 使用 Sampling 來翻譯
+# 定義工具 - 使用 Sampling 來翻譯
 @mcp.tool
-async def smart_translate(text: str, ctx: Context, target_language: str) -> str:
+async def smart_translate(ctx: Context, text: str, target_language: str) -> str:
     """
     使用 AI 進行智慧翻譯（保留語氣和風格）。
     
@@ -137,9 +137,9 @@ async def smart_translate(text: str, ctx: Context, target_language: str) -> str:
     return f"🌐 翻譯結果 ({target_language})：\n\n{result.text}"
 
 
-# 4. 定義工具 - 使用 Sampling 生成回應建議
+# 定義工具 - 使用 Sampling 生成回應建議
 @mcp.tool
-async def generate_reply_suggestions(message: str, ctx: Context, tone: str = "professional") -> str:
+async def generate_reply_suggestions(ctx: Context, message: str, tone: str = "professional") -> str:
     """
     根據收到的訊息，使用 AI 生成多個回覆建議。
     
